@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/zepptron/rpi-prometheus.svg?branch=master)](https://travis-ci.org/zepptron/rpi-prometheus)
+
+
 # rpi-socat
 Socat for Docker Swarm on Raspberry Pi
 
