@@ -8,7 +8,7 @@ Socat for Docker Swarm on Raspberry Pi
 
 create an overlay network in your docker swarm and adjust the following snippet to your needs:
 
-´´´
+```
 docker service create -d \
 --name dockerd-export \
 --mode global \
@@ -19,5 +19,5 @@ docker service create -d \
 zepp/rpi-socat:latest
 ```
 
-`-e IN=xxx` is for the inputstream from the Hostgateway and `-e OUT` is the outputstream for other containers.
-`--mode global` means that the container runs on every available worker node (constraint).
+` -e IN=xxx ` is for the inputstream from the Hostgateway and `-e OUT` is the outputstream for other containers.
+` --mode global ` means that the container runs on every available worker node (constraint).
