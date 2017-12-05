@@ -1,0 +1,25 @@
+sudo: required
+services:
+- docker
+language: bash
+script:
+- docker run --rm --privileged multiarch/qemu-user-static:register --reset
+- export TAG=`if [[ $TRAVIS_PULL_REQUEST == "false" ]] && [[ $TRAVIS_BRANCH == "master"
+  ]]; then echo "latest"; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi`
+- export REPO=zepp/rpi-socat
+- docker build -t $REPO:$TAG .
+after_success:
+- docker login -u="$HUB_USER" -p="$HUB_PASS"
+- if [[ $TRAVIS_PULL_REQUEST == "false" ]] && [[ $TRAVIS_BRANCH == "master" ]]; then
+  docker tag $REPO:$TAG $REPO:$TRAVIS_BUILD_NUMBER; docker push $REPO:$TRAVIS_BUILD_NUMBER;
+  fi
+- docker push $REPO:$TAG
+notifications:
+  slack:
+    rooms:
+      secure: Jv2eRHiHHy6a3hxf751moxgSHM3Le1kBDdX5n9PxWxNu+0OxeVJ5A4OJ/MuWrnsiFxFnowJk2txtqj+xF+cbjyOcKcZhCjHRZQJa90NeDqh+81M9jD1IWB22YUvtNiX7KZuUdZEBwlmI+hS7jZx4/Zmbg6wYZVvtYid5ebCzfIbtCldJSZ5RmNTVoqSkSkxYyMkln6bLYCL3jK3i0Q1r40Fl7WhXB6T/qytBHOC8RRMFhUuiKwLZ9qhzD9Cxn5uPCD23fpOdb6E5QVn1OMbYo6fSiRn4+vE9MUxg2S34jZsLSczEXt1Vg+CM9Blqxk/tdHI8Mi9KNFG8hsoT8lqDp0jSMl5NTLeIGBk2fvyczoQx37ZMCnkDPEAgmWPHfCY/f0v7W8G2f4S/Y7HsTkUTq8zlZPk5d03bwCcu9+sy8ceKJ83w4EorsRKYj2Ac+ztirL1MqsUXVzlWQ3b7Ww1gPljlOZkUq/V1Ofv7HnmIhAv2JUGySQ6TeTKoaE2gizrlBnnx4z/XJPg/VcgkTD3OXQXCSX9qk6jVsWDdwMutRBtAuMa+3VLJwZjGSQT+U2Y7IWt279UDWZBRyphTE/uWJF008EHTv9gu8kGzE53xMLlXJPxBYzXksq02r8dxCIuKZSlYYTeEifrfMiqCZnYgm8RDTkJwf5J560Gsi5EsJYU=
+    template:
+    - "%{repository} (%{commit}) : %{message} "
+    - 'Build number: %{build_number} - Commit message: %{commit_message}'
+    - 'Runtime: %{elapsed_time}'
+    - 'Build details: %{build_url}'
