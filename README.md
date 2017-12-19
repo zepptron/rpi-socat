@@ -4,7 +4,7 @@
 # rpi-socat
 Socat for Docker Swarm on Raspberry Pi
 
-You'll need this if you‘d like to get the metrics of the docker daemon into prometheus. Since every docker installation has it's own metrics you'll need something small between your running daemon and prometheus to differentiate and not only get the ones from the hostmachine where prometheus is actually running.
+You'll need this if you‘d like to get the metrics of the Docker daemon into [Prometheus](https://github.com/zepptron/rpi-prometheus). Since every docker installation has it's own metrics you'll need something small between your running daemon and prometheus to differentiate and not only get the ones from the hostmachine where prometheus is actually running.
 
 <h3>Prerequisites:</h3>
 Please take care that you have the correct docker_gwbridge IP in use if you're about to use it in the docker daemon/prometheus context. 
